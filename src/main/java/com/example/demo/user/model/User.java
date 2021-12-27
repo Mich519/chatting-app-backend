@@ -2,6 +2,7 @@ package com.example.demo.user.model;
 
 import com.example.demo.channel.model.Channel;
 import com.example.demo.user.utils.UserRole;
+import com.example.demo.userchannel.model.UserChannel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,10 +16,9 @@ import java.util.List;
 @Table(name = "app_user")
 @Getter
 @ToString
-@AllArgsConstructor
-@RequiredArgsConstructor
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -34,23 +34,13 @@ public class User implements UserDetails {
     @JsonIgnore
     private String password;
 
-    @NonNull
     @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private UserRole role = UserRole.USER;
 
-    @ManyToMany
-    @JoinTable(
-            name = "users_channels",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "channel_id")
-    )
-    @ToString.Exclude
+    @Setter
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private List<Channel> channels;
-
-    public void setChannels(List<Channel> channels) {
-        this.channels = channels;
-    }
+    private List<UserChannel> userChannels;
 
     @Override
     @JsonIgnore

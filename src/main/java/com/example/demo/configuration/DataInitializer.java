@@ -5,6 +5,8 @@ import com.example.demo.channel.service.ChannelService;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.UserService;
 import com.example.demo.user.utils.UserRole;
+import com.example.demo.userchannel.model.UserChannel;
+import com.example.demo.userchannel.service.UserChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +18,13 @@ public class DataInitializer {
 
     private final UserService userService;
     private final ChannelService channelService;
+    private final UserChannelService userChannelService;
 
     @Autowired
-    public DataInitializer(UserService userService, ChannelService channelService) {
+    public DataInitializer(UserService userService, ChannelService channelService, UserChannelService userChannelService) {
         this.userService = userService;
         this.channelService = channelService;
+        this.userChannelService = userChannelService;
     }
 
     @PostConstruct
@@ -35,27 +39,34 @@ public class DataInitializer {
                 .username("1Michał")
                 .password("admin")
                 .role(UserRole.ADMIN)
-                .channels(List.of(channel1))
                 .build();
 
         User user2 = User.builder()
                 .username("adamix123")
                 .password("adam")
                 .role(UserRole.USER)
-                .channels(List.of(channel1))
                 .build();
 
         User user3 = User.builder()
                 .username("pro_player_-_-")
                 .password("pro_player_-_-")
                 .role(UserRole.USER)
-                .channels(List.of(channel1))
                 .build();
 
         userService.addUser(user1);
         userService.addUser(user2);
         userService.addUser(user3);
 
-        channel1.setUsers(List.of(user1, user2, user3));
+
+        UserChannel uc1 = UserChannel.builder()
+                .user(user1)
+                .channel(channel1)
+                .build();
+
+        userChannelService.addUserChannel(uc1);
+        channel1.setUserChannels(List.of(uc1));
+        user1.setUserChannels(List.of(uc1));
+
+
     }
 }

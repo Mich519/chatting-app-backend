@@ -1,6 +1,8 @@
 package com.example.demo.channel.model;
 
 import com.example.demo.user.model.User;
+import com.example.demo.userchannel.model.UserChannel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -12,9 +14,9 @@ import java.util.List;
 @Table(name = "channel")
 @Getter
 @ToString
-@AllArgsConstructor
-@RequiredArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Channel {
 
     @Id
@@ -26,7 +28,8 @@ public class Channel {
     @CreatedDate
     private Date created;
 
-    @ManyToMany(mappedBy = "channels")
     @Setter
-    private List<User> users;
+    @OneToMany(mappedBy = "channel")
+    @JsonIgnore
+    private List<UserChannel> userChannels;
 }
