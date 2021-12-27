@@ -1,6 +1,5 @@
 package com.example.demo.channel.model;
 
-import com.example.demo.user.model.User;
 import com.example.demo.userchannel.model.UserChannel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -20,7 +19,7 @@ import java.util.List;
 public class Channel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
