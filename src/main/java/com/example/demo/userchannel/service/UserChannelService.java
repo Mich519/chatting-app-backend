@@ -36,6 +36,10 @@ public class UserChannelService {
         return userChannelRepository.findAllByUserId(userId);
     }
 
+    public Optional<UserChannel> findUserChannelByUserIdAndChannelId(int userId, int channelId) {
+        return userChannelRepository.findByUserIdAndChannelId(userId, channelId);
+    }
+
     public Optional<UserChannel> findUserChannelByUserAndChannel(User user, Channel channel) {
         return userChannelRepository.findByUserAndChannel(user, channel);
     }
